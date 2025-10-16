@@ -1,4 +1,5 @@
 import 'dart:ffi';
+
 import 'package:ffi/ffi.dart';
 import 'package:flutter/material.dart';
 
@@ -19,7 +20,7 @@ typedef ReleaseDCDart = int Function(int hWnd, int hDC);
 final class POINT extends Struct {
   @Int32()
   external int x;
-  
+
   @Int32()
   external int y;
 }
@@ -47,7 +48,7 @@ class ColorPickerService {
   /// Get color at current cursor position
   static Color? getColorAtCursor() {
     final point = calloc<POINT>();
-    
+
     try {
       // Get cursor position
       final result = _getCursorPos(point);
@@ -67,7 +68,7 @@ class ColorPickerService {
       try {
         // Get pixel color at cursor position
         final colorRef = _getPixel(hdc, x, y);
-        
+
         // Windows COLORREF format is 0x00BBGGRR
         final r = colorRef & 0xFF;
         final g = (colorRef >> 8) & 0xFF;
@@ -91,7 +92,7 @@ class ColorPickerService {
 
     try {
       final colorRef = _getPixel(hdc, x, y);
-      
+
       // Windows COLORREF format is 0x00BBGGRR
       final r = colorRef & 0xFF;
       final g = (colorRef >> 8) & 0xFF;

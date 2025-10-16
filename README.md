@@ -101,3 +101,24 @@ If you encounter any issues or have questions, please open an issue on the repos
 ---
 
 **Happy Color Picking! 🎨**
+
+---
+
+## What's New in v2 compared to v1
+
+- No startup white flicker: saved theme is read before `runApp` and set as `initialThemeMode`.
+- Immediate loading of saved language: read from storage and set as `initialLocale` in `GetMaterialApp`.
+- Build-phase safety: avoid calling `Get.updateLocale` or `Get.changeThemeMode` during build to prevent `setState() or markNeedsBuild() called during build` errors.
+- Translations integration: add `AppTranslations` and key maps for `en_US` and `fa_IR`, use `.tr` in widgets.
+- Simplified app bootstrap in `main.dart`: pass `initialThemeMode` and `initialLocale` directly to `GetMaterialApp` for a flicker-free startup.
+- Theme management: change theme via `ThemeController` methods `setLight`, `setDark`, and `setSystem`; `onInit` only reads the stored value.
+- Language management: change language via `LanguageController.changeLanguage`; `onInit` only loads the persisted value.
+
+### Upgrade Guide from v1
+- If controllers changed theme/locale directly in `onInit`, move that logic to `main.dart` so it runs before `runApp`.
+- Ensure `GetMaterialApp` is wired with `translations`, `initialLocale`, and `locale`.
+- For UI language switching, use `LanguageController.changeLanguage('fa_IR' | 'en_US')` only.
+
+### How to Test
+- Switch language to Persian and restart: UI loads in Persian immediately.
+- Switch theme to dark and restart: dark theme loads with no white flicker.

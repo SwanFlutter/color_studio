@@ -1,6 +1,9 @@
+// ignore_for_file: deprecated_member_use
+
 import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+
 import 'color_picker_service.dart';
 
 class ColorPickerOverlay extends StatefulWidget {
@@ -80,12 +83,12 @@ class _ColorPickerOverlayState extends State<ColorPickerOverlay> {
                         vertical: 16,
                       ),
                       decoration: BoxDecoration(
-                        color: Colors.black.withOpacity(0.85),
+                        color: Colors.black.withValues(alpha: 0.85),
                         borderRadius: BorderRadius.circular(12),
                         border: Border.all(color: Colors.white24, width: 1),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withOpacity(0.5),
+                            color: Colors.black.withValues(alpha: 0.5),
                             blurRadius: 15,
                             spreadRadius: 3,
                           ),
@@ -126,7 +129,10 @@ class _ColorPickerOverlayState extends State<ColorPickerOverlay> {
                               decoration: BoxDecoration(
                                 color: _currentColor,
                                 borderRadius: BorderRadius.circular(8),
-                                border: Border.all(color: Colors.white, width: 2),
+                                border: Border.all(
+                                  color: Colors.white,
+                                  width: 2,
+                                ),
                               ),
                             ),
                             const SizedBox(height: 8),
@@ -145,7 +151,7 @@ class _ColorPickerOverlayState extends State<ColorPickerOverlay> {
                     ),
                   ),
                 ),
-                
+
                 // Magnifier near cursor
                 if (_cursorPosition != null && _currentColor != null)
                   Positioned(
@@ -172,16 +178,17 @@ class _ColorPickerOverlayState extends State<ColorPickerOverlay> {
                           borderRadius: BorderRadius.circular(46),
                           child: Stack(
                             children: [
-                              Container(
-                                color: _currentColor,
-                              ),
+                              Container(color: _currentColor),
                               // Center crosshair
                               Center(
                                 child: Container(
                                   width: 16,
                                   height: 16,
                                   decoration: BoxDecoration(
-                                    border: Border.all(color: Colors.white, width: 2),
+                                    border: Border.all(
+                                      color: Colors.white,
+                                      width: 2,
+                                    ),
                                     shape: BoxShape.circle,
                                   ),
                                 ),

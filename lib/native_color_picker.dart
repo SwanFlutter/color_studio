@@ -1,10 +1,12 @@
-import 'package:flutter/services.dart';
-import 'package:flutter/material.dart';
 import 'dart:async';
 
+import 'package:flutter/services.dart';
+
 class NativeColorPicker {
-  static const MethodChannel _channel = MethodChannel('color_studio/color_picker');
-  
+  static const MethodChannel _channel = MethodChannel(
+    'color_studio/color_picker',
+  );
+
   static StreamController<Color>? _colorPickedController;
   static StreamController<void>? _cancelledController;
 
@@ -15,7 +17,7 @@ class NativeColorPicker {
         final r = args['r'] as int;
         final g = args['g'] as int;
         final b = args['b'] as int;
-        
+
         final color = Color.fromARGB(255, r, g, b);
         _colorPickedController?.add(color);
       } else if (call.method == 'onPickingCancelled') {
@@ -29,18 +31,18 @@ class NativeColorPicker {
     required Function(Color) onColorUpdate,
   }) async {
     _setupMethodCallHandler();
-    
+
     final completer = Completer<Color?>();
-    
+
     _colorPickedController = StreamController<Color>.broadcast();
     _cancelledController = StreamController<void>.broadcast();
-    
+
     _colorPickedController!.stream.listen((color) {
       if (!completer.isCompleted) {
         completer.complete(color);
       }
     });
-    
+
     _cancelledController!.stream.listen((_) {
       if (!completer.isCompleted) {
         completer.complete(null);
@@ -50,36 +52,35 @@ class NativeColorPicker {
     // Start the native color picking
     try {
       await _channel.invokeMethod('startPicking');
-      
+
       // Update color in real-time
       Timer.periodic(const Duration(milliseconds: 50), (timer) {
         if (completer.isCompleted) {
           timer.cancel();
           return;
         }
-        
+
         _getColorAtCursor().then((color) {
           if (color != null) {
             onColorUpdate(color);
           }
         });
       });
-      
     } catch (e) {
       if (!completer.isCompleted) {
         completer.completeError(e);
       }
     }
-    
+
     final result = await completer.future;
-    
+
     // Cleanup
     await stopPicking();
     await _colorPickedController?.close();
     await _cancelledController?.close();
     _colorPickedController = null;
     _cancelledController = null;
-    
+
     return result;
   }
 
