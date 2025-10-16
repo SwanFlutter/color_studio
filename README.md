@@ -5,6 +5,19 @@ A powerful tool to pick colors from anywhere on your Windows screen and display 
 ## ✨ Features
 
 - 🎨 **Screen Color Picker** - Pick colors from any point on your Windows screen
+
+
+<img width="600"  alt="Capturecsdxs" src="https://github.com/user-attachments/assets/b7872ba4-8758-4e09-8168-e429222da568" />
+
+
+
+
+https://github.com/user-attachments/assets/b9eb8127-ec0c-4313-8371-ad27d46b3001
+
+
+
+
+
 - 📋 **Quick Copy** - Copy color codes with a single click
 - 🎯 **Multiple Flutter Formats**:
   - HEX (`#RRGGBB`)
